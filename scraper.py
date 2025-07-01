@@ -169,7 +169,7 @@ def scrape_business_info(charter_number):
                 pass
             sb.cdp.sleep(1)
         
-        print(f"✓ Found target input field: {target_input}")
+        print(f"Found target input field: {target_input}")
         
         sb.cdp.type(target_input, charter_number)
         sb.cdp.click('a[title="Search"]')
@@ -191,8 +191,8 @@ def scrape_business_info(charter_number):
         with open(output_filename, "w", encoding="utf-8") as f:
             json.dump(business_data, f, indent=2, ensure_ascii=False)
         
-        print(f"✓ Successfully extracted data and saved to {output_filename}")
-        print(f"✓ Successfully processed charter number: {charter_number}")
+        print(f"Successfully extracted data and saved to {output_filename}")
+        print(f"Successfully processed charter number: {charter_number}")
 
 
 if __name__ == "__main__":
