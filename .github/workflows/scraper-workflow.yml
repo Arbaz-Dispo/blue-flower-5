@@ -1,0 +1,39 @@
+name: Missouri Business Scraper
+
+on:
+  workflow_dispatch:
+    inputs:
+      charter_number:
+        description: 'Business Charter Number'
+        required: true
+      uuid:
+        description: 'A unique ID for this specific request'
+        required: true
+
+jobs:
+  scrape:
+    runs-on: windows-latest
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install uv
+      run: pip install uv
+
+    - name: Install dependencies with uv (fresh install)
+      run: uv pip install -r requirements.txt --system
+
+    - name: Run scraper
+      run: python scraper.py ${{ github.event.inputs.charter_number }}
+
+    - name: Upload business info artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: missouri-business-info-${{ github.event.inputs.uuid }}
+        path: missouri_business_info_${{ github.event.inputs.charter_number }}.json 
